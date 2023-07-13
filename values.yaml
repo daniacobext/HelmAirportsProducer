@@ -1,0 +1,26 @@
+nameApp: airports-producer
+port: 8081 
+
+secret:
+  nameSecret: sa-airports-api
+  keyUrl: url
+  keyUsername: username
+  keyPassword: password
+  
+deployment:
+  image: dina1993/airports-producer
+  env:
+    springUrl: SPRING_DATASOURCE_URL
+    springUsername: SPRING_DATASOURCE_USERNAME
+    springPassword: SPRING_DATASOURCE_PASSWORD
+
+kafka:
+    serverEndPoint:
+        nameServer: KAFKA_PROPERTIES_SERVER_ENDPOINT
+        valueServer: kafka:9092
+    topicName:
+        nameTopic: KAFKA_PROPERTIES_TOPIC_NAME
+        valueTopic: location1
+    groupId:
+        nameGroupId: KAFKA_PROPERTIES_GROUP_ID
+        valueGroupId: consumer-1

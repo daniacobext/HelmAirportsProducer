@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nameApp}}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.nameApp}}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.nameApp}}
+    spec:
+      containers:
+        - name: {{ .Values.nameApp}}
+          image: {{ .Values.deployment.image}}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.port }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          ports:
+            - containerPort: {{ .Values.port}}
+          env:
+            - name: {{ .Values.deployment.env.springUrl}}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.nameSecret}}
+                  key: {{ .Values.secret.keyUrl}}
+            - name: {{ .Values.deployment.env.springUsername}}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.nameSecret}}
+                  key: {{ .Values.secret.keyUsername}}
+            - name: {{ .Values.deployment.env.springPassword}}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.nameSecret}}
+                  key: {{ .Values.secret.keyPassword}}
+            - name: {{ .Values.kafka.serverEndPoint.nameServer}}
+              value: {{ .Values.kafka.serverEndPoint.valueServer}}
+            - name: {{ .Values.kafka.topicName.nameTopic}}
+              value: {{ .Values.kafka.topicName.valueTopic}}
+            - name: {{ .Values.kafka.groupId.nameGroupId}}
+              value: {{ .Values.kafka.groupId.valueGroupId}}

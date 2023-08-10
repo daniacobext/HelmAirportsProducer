@@ -49,3 +49,5 @@ spec:
               value: {{ .Values.kafka.topicName.valueTopic}}
             - name: {{ .Values.kafka.groupId.nameGroupId}}
               value: {{ .Values.kafka.groupId.valueGroupId}}
+      imagePullSecrets:
+      - name: regsiemens
